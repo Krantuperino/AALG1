@@ -151,6 +151,7 @@ short guarda_tabla_tiempos(char* fichero, PTIEMPO tiempo, int n_tiempos)
     for(i=0; i<=n_tiempos; i++)
     {
         fprintf(file, "%d)\t", i+1);
+        fprintf(file, "%d\t", tiempo[i].N);
         fprintf(file, "%.10e\t", tiempo[i].tiempo);
         fprintf(file, "%.10e\t", tiempo[i].medio_ob);
         fprintf(file, "%d\t", tiempo[i].min_ob);
