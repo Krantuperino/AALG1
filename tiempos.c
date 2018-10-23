@@ -20,7 +20,7 @@
 /* Vuestra documentacion (formato igual            */
 /* que en el primer apartado):                     */
 /***************************************************/
-int minTabla(double* tabla, int N)
+double minTabla(double tabla[], int N)
 {
   int min=0, j;
 
@@ -38,7 +38,7 @@ int minTabla(double* tabla, int N)
 /* Vuestra documentacion (formato igual            */
 /* que en el primer apartado):                     */
 /***************************************************/
-int maxTabla(double* tabla, int N)
+double maxTabla(double tabla[], int N)
 {
   int max=0, j;
 
@@ -62,11 +62,12 @@ short tiempo_medio_ordenacion(pfunc_ordena metodo,
                               PTIEMPO ptiempo)
 {
   int i;
+  double tabla_ob[n_perms];
   int** tabla = NULL;
   struct timespec start, finish;
-  double tiempo, media, media_ob, *tabla_ob = NULL;
+  double tiempo, media, media_ob;
 
-  tabla_ob = calloc(N, sizeof(double));
+  //tabla_ob = calloc(N, sizeof(double));
 
   if(!metodo || n_perms < 1 || N < 2){
     return ERR;
@@ -110,8 +111,8 @@ short tiempo_medio_ordenacion(pfunc_ordena metodo,
 
   ptiempo->tiempo = media;
   ptiempo->medio_ob = media_ob;
-  ptiempo->min_ob = minTabla(tabla_ob, N);
-  ptiempo->max_ob = maxTabla(tabla_ob, N);
+  ptiempo->min_ob = minTabla(tabla_ob, n_perms);
+  ptiempo->max_ob = maxTabla(tabla_ob, n_perms);
 
   free(tabla_ob);
   return OK;
