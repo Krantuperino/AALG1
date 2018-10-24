@@ -55,7 +55,7 @@ int* genera_perm(int N)
     return NULL;
   }
 
-  perm = malloc(N * sizeof(int));
+  perm = calloc(N, sizeof(int));
 
   if(!perm){
     printf("Error in memory");
@@ -99,7 +99,7 @@ int** genera_permutaciones(int n_perms, int N)
   int **tabla;
   int i;
 
-  tabla = malloc(sizeof(int)*N * n_perms);
+  tabla = calloc(sizeof(int), N * n_perms);
 
   if(!tabla){
     printf("Memory error\n");
