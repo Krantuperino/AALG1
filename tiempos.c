@@ -78,11 +78,11 @@ short tiempo_medio_ordenacion(pfunc_ordena metodo,
     ptiempo->n_elems = n_perms;
     ptiempo->N = N;
 
-    for(i=0; i<n_perms; i++){
+    for(i=0; i<n_perms-1; i++){
 
         clock_gettime(CLOCK_REALTIME, &start);
 
-        tabla_ob[i] = metodo(tabla[i], 0, N);
+        tabla_ob[i] = metodo(tabla[i], 0, N-1);
 
         clock_gettime(CLOCK_REALTIME, &finish);
 
@@ -92,14 +92,14 @@ short tiempo_medio_ordenacion(pfunc_ordena metodo,
     }
 
     media = (double) media/n_perms;
-    for(i=0; i<n_perms; i++)
+    for(i=0; i<n_perms-1; i++)
         media_ob += tabla_ob[i];
     media_ob = (double) media_ob/n_perms;
 
     ptiempo->tiempo = media;
     ptiempo->medio_ob = media_ob;
-    ptiempo->min_ob = (int) minTabla(tabla_ob, n_perms);
-    ptiempo->max_ob = (int) maxTabla(tabla_ob, n_perms);
+    ptiempo->min_ob = (int) minTabla(tabla_ob, n_perms-1);
+    ptiempo->max_ob = (int) maxTabla(tabla_ob, n_perms-1);
 
     for(i=0; i<n_perms; i++)
       free(tabla[i]);
@@ -118,11 +118,11 @@ short genera_tiempos_ordenacion(pfunc_ordena metodo, char* fichero,
 {
     int i;
     int perms_imprimir;
-    PTIEMPO  ptiempo = NULL;
+    PTIEMPO ptiempo = NULL;
 
-    perms_imprimir = ((num_max - num_min)/incr);
+    perms_imprimir = ((num_max - num_min)/incr) + 1;
 
-    ptiempo =(PTIEMPO) calloc (perms_imprimir, sizeof(PTIEMPO));
+    ptiempo =(PTIEMPO) malloc (perms_imprimir*sizeof(TIEMPO));
 
     if(!metodo || !fichero || num_min >= num_max || incr<1 || n_perms<1|| !ptiempo){
         return ERR;
@@ -130,7 +130,8 @@ short genera_tiempos_ordenacion(pfunc_ordena metodo, char* fichero,
 
 
     for(i=0; num_min <= num_max; num_min+=incr , i++){
-        tiempo_medio_ordenacion(metodo, n_perms, num_min, &ptiempo[i]);
+        if(tiempo_medio_ordenacion(metodo, n_perms, num_min, &ptiempo[i]) == ERR)
+            return ERR;
     }
     guarda_tabla_tiempos(fichero, ptiempo, perms_imprimir);
 
@@ -153,7 +154,7 @@ short guarda_tabla_tiempos(char* fichero, PTIEMPO tiempo, int n_tiempos)
     if(!file)
         return ERR;
 
-    for(i=0; i<=n_tiempos; i++)
+    for(i=0; i<=n_tiempos-1; i++)
     {
         fprintf(file, "%d)\t", i+1);
         fprintf(file, "%d\t", tiempo[i].N);
