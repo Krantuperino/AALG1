@@ -35,14 +35,14 @@ void swap(int * a, int * b){
 int * Create_AuxTable(int *tabla, int ip, int iu)
 {
 	int i, n = iu - ip;
-	int * aux;
+	int * aux = NULL;
 
-	aux = malloc(n * sizeof(int));
+	aux = (int*) malloc(n * sizeof(int));
 
-	if(ip > iu)
+	if(ip > iu || !aux)
 		return NULL;
 	
-	for(i=0; i<n; i++){
+	for(i=0; i<n-1; i++){
 		aux[i]=tabla[ip+i];
 	}
 
