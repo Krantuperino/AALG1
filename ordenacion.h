@@ -30,8 +30,7 @@ typedef int (* pfunc_ordena)(int*, int, int);
 void swap(int* a, int* b);
 int SelectSort(int* tabla, int ip, int iu);
 int SelectSortInv(int* tabla, int ip, int iu);
-int MergeSort(int* tabla, int ip, int iu);
-int Merge(int* tabla, int ip, int iu, int imedio);
-
+int MergeSort(int tabla[], int ip, int iu);
+int Merge(int tabla[], int ip, int iu, int imedio);
 
 #endif
