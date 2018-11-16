@@ -154,7 +154,8 @@ short guarda_tabla_tiempos(char* fichero, PTIEMPO tiempo, int n_tiempos)
 	if(!file)
 		return ERR;
 
-		fprintf(file, "Num ej\tTamaño\tTiempo(sec)\t\tMedia OB\t\tMin OB\tMax OB\n");
+	
+	fprintf(file, "Num ej\tTamaño\tTiempo(sec)\t\tMedia OB\t\tMin OB\tMax OB\n");
 
 	for(i=0; i<=n_tiempos-1; i++)
 	{
