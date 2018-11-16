@@ -197,10 +197,10 @@ int Split(int *tabla, int ip, int iu, int *pos)
 
 	for(i = ip+1; i<=iu; i++){
 		if(tabla[i]<k){
-			num++;
 			m++;
 			swap(&tabla[i], &tabla[m]);
 		}
+		num++;
 	}
 	
 	swap(&tabla[ip], &tabla[m]);
