@@ -22,14 +22,14 @@
 /***************************************************/
 double minTabla(double tabla[], int N)
 {
-    int min=0, j;
+	int min=0, j;
 
-    for(j = 1; j < N; j++){
-        if(tabla[j]<tabla[min])
-            min = j;
-    }
+	for(j = 1; j < N; j++){
+		if(tabla[j]<tabla[min])
+			min = j;
+	}
 
-    return tabla[min];
+	return tabla[min];
 }
 
 /***************************************************/
@@ -40,14 +40,14 @@ double minTabla(double tabla[], int N)
 /***************************************************/
 double maxTabla(double tabla[], int N)
 {
-    int max=0, j;
+	int max=0, j;
 
-    for(j = 1; j < N; j++){
-        if(tabla[j]>tabla[max])
-            max = j;
-    }
+	for(j = 1; j < N; j++){
+		if(tabla[j]>tabla[max])
+			max = j;
+	}
 
-    return tabla[max];
+	return tabla[max];
 }
 
 /***************************************************/
@@ -57,54 +57,54 @@ double maxTabla(double tabla[], int N)
 /* que en el primer apartado):                     */
 /***************************************************/
 short tiempo_medio_ordenacion(pfunc_ordena metodo,
-                              int n_perms,
-                              int N,
-                              PTIEMPO ptiempo)
+							  int n_perms,
+							  int N,
+							  PTIEMPO ptiempo)
 {
-    int i;
-    double tabla_ob[n_perms];
-    int** tabla = NULL;
-    struct timespec start, finish;
-    double tiempo=0, media=0, media_ob=0;
+	int i;
+	double tabla_ob[n_perms];
+	int** tabla = NULL;
+	struct timespec start, finish;
+	double tiempo=0, media=0, media_ob=0;
 
-    //tabla_ob = calloc(N, sizeof(double));
+	//tabla_ob = calloc(N, sizeof(double));
 
-    if(!metodo || n_perms < 1 || N < 2){
-        return ERR;
-    }
+	if(!metodo || n_perms < 1 || N < 2){
+		return ERR;
+	}
 
-    tabla = genera_permutaciones(n_perms, N);
+	tabla = genera_permutaciones(n_perms, N);
 
-    ptiempo->n_elems = n_perms;
-    ptiempo->N = N;
+	ptiempo->n_elems = n_perms;
+	ptiempo->N = N;
 
-    for(i=0; i<n_perms-1; i++){
+	for(i=0; i<n_perms-1; i++){
 
-        clock_gettime(CLOCK_REALTIME, &start);
+		clock_gettime(CLOCK_REALTIME, &start);
 
-        tabla_ob[i] = metodo(tabla[i], 0, N-1);
+		tabla_ob[i] = metodo(tabla[i], 0, N-1);
 
-        clock_gettime(CLOCK_REALTIME, &finish);
+		clock_gettime(CLOCK_REALTIME, &finish);
 
-        tiempo = (double) (finish.tv_sec - start.tv_sec) + NANOSEC*(finish.tv_nsec - start.tv_nsec);
+		tiempo = (double) (finish.tv_sec - start.tv_sec) + NANOSEC*(finish.tv_nsec - start.tv_nsec);
 
-        media+= tiempo;
-    }
+		media+= tiempo;
+	}
 
-    media = (double) media/n_perms;
-    for(i=0; i<n_perms-1; i++)
-        media_ob += tabla_ob[i];
-    media_ob = (double) media_ob/n_perms;
+	media = (double) media/(n_perms-1);
+	for(i=0; i<n_perms-1; i++)
+		media_ob += tabla_ob[i];
+	media_ob = (double) media_ob/(n_perms-1);
 
-    ptiempo->tiempo = media;
-    ptiempo->medio_ob = media_ob;
-    ptiempo->min_ob = (int) minTabla(tabla_ob, n_perms-1);
-    ptiempo->max_ob = (int) maxTabla(tabla_ob, n_perms-1);
+	ptiempo->tiempo = media;
+	ptiempo->medio_ob = media_ob;
+	ptiempo->min_ob = (int) minTabla(tabla_ob, n_perms-1);
+	ptiempo->max_ob = (int) maxTabla(tabla_ob, n_perms-1);
 
-    for(i=0; i<n_perms; i++)
-      free(tabla[i]);
-    free(tabla);
-    return OK;
+	for(i=0; i<n_perms; i++)
+	  free(tabla[i]);
+	free(tabla);
+	return OK;
 }
 
 /***************************************************/
@@ -113,30 +113,30 @@ short tiempo_medio_ordenacion(pfunc_ordena metodo,
 /* Vuestra documentacion                           */
 /***************************************************/
 short genera_tiempos_ordenacion(pfunc_ordena metodo, char* fichero,
-                                int num_min, int num_max,
-                                int incr, int n_perms)
+								int num_min, int num_max,
+								int incr, int n_perms)
 {
-    int i;
-    int perms_imprimir;
-    PTIEMPO ptiempo = NULL;
+	int i;
+	int perms_imprimir;
+	PTIEMPO ptiempo = NULL;
 
-    perms_imprimir = ((num_max - num_min)/incr) + 1;
+	perms_imprimir = ((num_max - num_min)/incr) + 1;
 
-    ptiempo =(PTIEMPO) malloc (perms_imprimir*sizeof(TIEMPO));
+	ptiempo =(PTIEMPO) malloc (perms_imprimir*sizeof(TIEMPO));
 
-    if(!metodo || !fichero || num_min >= num_max || incr<1 || n_perms<1|| !ptiempo){
-        return ERR;
-    }
+	if(!metodo || !fichero || num_min >= num_max || incr<1 || n_perms<1|| !ptiempo){
+		return ERR;
+	}
 
 
-    for(i=0; num_min <= num_max; num_min+=incr , i++){
-        if(tiempo_medio_ordenacion(metodo, n_perms, num_min, &ptiempo[i]) == ERR)
-            return ERR;
-    }
-    guarda_tabla_tiempos(fichero, ptiempo, perms_imprimir);
+	for(i=0; num_min <= num_max; num_min+=incr , i++){
+		if(tiempo_medio_ordenacion(metodo, n_perms, num_min, &ptiempo[i]) == ERR)
+			return ERR;
+	}
+	guarda_tabla_tiempos(fichero, ptiempo, perms_imprimir);
 
-    free(ptiempo);
-    return OK;
+	free(ptiempo);
+	return OK;
 }
 
 /***************************************************/
@@ -147,25 +147,27 @@ short genera_tiempos_ordenacion(pfunc_ordena metodo, char* fichero,
 /***************************************************/
 short guarda_tabla_tiempos(char* fichero, PTIEMPO tiempo, int n_tiempos)
 {
-    int i;
-    FILE * file = NULL;
+	int i;
+	FILE * file = NULL;
 
-    file = fopen(fichero, "w");
-    if(!file)
-        return ERR;
+	file = fopen(fichero, "w");
+	if(!file)
+		return ERR;
 
-    for(i=0; i<=n_tiempos-1; i++)
-    {
-        fprintf(file, "%d)\t", i+1);
-        fprintf(file, "%d\t", tiempo[i].N);
-        fprintf(file, "%.10e\t", tiempo[i].tiempo);
-        fprintf(file, "%.10e\t", tiempo[i].medio_ob);
-        fprintf(file, "%d\t", tiempo[i].min_ob);
-        fprintf(file, "%d\t", tiempo[i].max_ob);
-        fprintf(file, "\n");
-    }
+		fprintf(file, "Num ej\tTamaño\tTiempo(sec)\t\tMedia OB\t\tMin OB\tMax OB\n");
 
-    fclose(file);
+	for(i=0; i<=n_tiempos-1; i++)
+	{
+		fprintf(file, "%d)\t", i+1);
+		fprintf(file, "%d\t", tiempo[i].N);
+		fprintf(file, "%.10e\t", tiempo[i].tiempo);
+		fprintf(file, "%.10e\t", tiempo[i].medio_ob);
+		fprintf(file, "%d\t", tiempo[i].min_ob);
+		fprintf(file, "%d\t", tiempo[i].max_ob);
+		fprintf(file, "\n");
+	}
 
-    return OK;
+	fclose(file);
+
+	return OK;
 }

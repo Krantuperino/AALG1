@@ -95,9 +95,9 @@ int MergeSort(int *tabla, int ip, int iu)
     if(ip < iu)
     {
         imedio = (ip + iu) / 2;
-        MergeSort(tabla, ip, imedio);
-        MergeSort(tabla, imedio+1, iu);
-       num = Merge(tabla, ip, iu, imedio);
+        num = MergeSort(tabla, ip, imedio);
+        num += MergeSort(tabla, imedio+1, iu);
+       num += Merge(tabla, ip, iu, imedio);
     }
     return num;
 }
