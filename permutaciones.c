@@ -27,6 +27,9 @@
 /***************************************************/
 int aleat_num(int inf, int sup)
 {
+  if(sup<=inf)
+    return -1;
+
   return (rand() % (sup - inf + 1)) + inf;
 }
 
@@ -66,8 +69,10 @@ int* genera_perm(int N)
     perm[i-1] = i;
   }
 
-  for(i = 0; i < N; i++){
+  for(i = 0; i < N-1; i++){
     random = aleat_num(i, N-1);
+    if(random == -1)
+      return NULL;
     swap = perm[i];
     perm[i] = perm[random];
     perm[random] = swap;
@@ -99,7 +104,7 @@ int** genera_permutaciones(int n_perms, int N)
   int **tabla;
   int i;
 
-  tabla = calloc(sizeof(int), N * n_perms);
+  tabla = calloc(sizeof(int*), n_perms);
 
   if(!tabla){
     printf("Memory error\n");
@@ -113,6 +118,8 @@ int** genera_permutaciones(int n_perms, int N)
 
   for(i=0; i < n_perms; i++){
     tabla[i] = genera_perm(N);
+    if(tabla[i] == NULL)
+      return NULL;
   }
 
   return tabla;
