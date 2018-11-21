@@ -185,7 +185,7 @@ int QuickSort(int *tabla, int ip, int iu)
 
 int QuickSort_src(int *tabla, int ip, int iu)
 {
-	int num=0, pos, check;
+	int num=0, pos=1, check;
 
 	if(ip>iu || !tabla)
 		return ERR;
@@ -199,11 +199,7 @@ int QuickSort_src(int *tabla, int ip, int iu)
 			return ERR;
 		else
 			num += check;
-		check = QuickSort(tabla, ip, pos-1);
-		if(check == ERR)
-			return ERR;
-		else
-			num += check;
+		num += QuickSort_src(tabla, ip, pos-1);
 		ip=pos+1;
 	}
 
@@ -214,8 +210,6 @@ int Split(int *tabla, int ip, int iu, int *pos)
 {
 	int k, m, i, num=0;
 
-	if(!pos)
-		return ERR;
 	if(Middle_Avg(tabla, ip, iu, pos) == ERR)
 		return ERR;
 

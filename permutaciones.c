@@ -28,7 +28,7 @@
 int aleat_num(int inf, int sup)
 {
   if(sup<=inf)
-    return -1;
+    return ERR;
 
   return (rand() % (sup - inf + 1)) + inf;
 }
