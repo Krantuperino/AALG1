@@ -20,11 +20,14 @@
 /* Vuestra documentacion (formato igual            */
 /* que en el primer apartado):                     */
 /***************************************************/
-double minTabla(double tabla[], int N)
+double minTabla(double *tabla, int N)
 {
 	int min=0, j;
 
-	for(j = 1; j < N; j++){
+	if(N==1)
+		return tabla[min];
+
+	for(j = 0; j < N; j++){
 		if(tabla[j]<tabla[min])
 			min = j;
 	}
@@ -38,11 +41,14 @@ double minTabla(double tabla[], int N)
 /* Vuestra documentacion (formato igual            */
 /* que en el primer apartado):                     */
 /***************************************************/
-double maxTabla(double tabla[], int N)
+double maxTabla(double *tabla, int N)
 {
 	int max=0, j;
 
-	for(j = 1; j < N; j++){
+	if(N==1)
+		return tabla[max];
+
+	for(j = 0; j < N; j++){
 		if(tabla[j]>tabla[max])
 			max = j;
 	}
@@ -78,7 +84,7 @@ short tiempo_medio_ordenacion(pfunc_ordena metodo,
 	ptiempo->n_elems = n_perms;
 	ptiempo->N = N;
 
-	for(i=0; i<n_perms-1; i++){
+	for(i=0; i<n_perms; i++){
 
 		clock_gettime(CLOCK_REALTIME, &start);
 
@@ -91,15 +97,15 @@ short tiempo_medio_ordenacion(pfunc_ordena metodo,
 		media+= tiempo;
 	}
 
-	media = (double) media/(n_perms-1);
-	for(i=0; i<n_perms-1; i++)
+	media = (double) media/(n_perms);
+	for(i=0; i<n_perms; i++)
 		media_ob += tabla_ob[i];
-	media_ob = (double) media_ob/(n_perms-1);
+	media_ob = (double) media_ob/(n_perms);
 
 	ptiempo->tiempo = media;
 	ptiempo->medio_ob = media_ob;
-	ptiempo->min_ob = (int) minTabla(tabla_ob, n_perms-1);
-	ptiempo->max_ob = (int) maxTabla(tabla_ob, n_perms-1);
+	ptiempo->min_ob = (int) minTabla(tabla_ob, n_perms);
+	ptiempo->max_ob = (int) maxTabla(tabla_ob, n_perms);
 
 	for(i=0; i<n_perms; i++)
 	  free(tabla[i]);

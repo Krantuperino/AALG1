@@ -104,27 +104,30 @@ int MergeSort(int *tabla, int ip, int iu)
 
 int Merge(int *tabla, int ip, int iu, int imedio)
 {
-	int t_aux[iu-ip+1];
+	int *t_aux;
 	int num = 0;
 	int k = 0;
 	int i = ip;
 	int j = imedio + 1;
+
+	t_aux=malloc(sizeof(int)*(iu-ip+1));
+	if(t_aux==NULL)
+		return ERR;
 
 	while(i <= imedio && j <= iu)
 	{
 		if(tabla[i] < tabla[j])
 		{
 			t_aux[k] = tabla[i];
-			k++;
 			i++;
 			num++;
 		}
 		else
 		{
 			t_aux[k] = tabla[j];
-			k++;
 			j++;
 		}
+		k++;
 	}
 
 	while(i <= imedio)
@@ -147,6 +150,7 @@ int Merge(int *tabla, int ip, int iu, int imedio)
 		tabla[i] = t_aux[k];
 	}
 
+	free(t_aux);
 	return num;
 }
 
@@ -162,18 +166,45 @@ int QuickSort(int *tabla, int ip, int iu)
 	else
 	{
 		num = Split(tabla, ip, iu, &pos);
-		if(num == -1)
+		if(num == ERR)
 			return ERR;
 		if(ip < pos-1){
 			num += QuickSort(tabla, ip, pos-1);
-			if(num == -1)
+			if(num == ERR)
 				return ERR;
 		}
 		if(pos+1 < iu){
 			num += QuickSort(tabla, pos+1, iu);
-			if(num == -1)
+			if(num == ERR)
 				return ERR;
 		}
+	}
+
+	return num;
+}
+
+int QuickSort_src(int *tabla, int ip, int iu)
+{
+	int num=0, pos, check;
+
+	if(ip>iu || !tabla)
+		return ERR;
+
+	if(ip==iu)
+		return 0;
+	while(ip<iu)
+	{
+		check = Split(tabla, ip, iu, &pos);
+		if(check == ERR)
+			return ERR;
+		else
+			num += check;
+		check = QuickSort(tabla, ip, pos-1);
+		if(check == ERR)
+			return ERR;
+		else
+			num += check;
+		ip=pos+1;
 	}
 
 	return num;
@@ -185,7 +216,8 @@ int Split(int *tabla, int ip, int iu, int *pos)
 
 	if(!pos)
 		return ERR;
-	Middle(tabla, ip, iu, pos);
+	if(Middle_Avg(tabla, ip, iu, pos) == ERR)
+		return ERR;
 
 	k = tabla[*pos];
 
@@ -211,5 +243,13 @@ int Split(int *tabla, int ip, int iu, int *pos)
 
 int Middle(int *tabla, int ip, int iu, int *pos){
 	*pos = ip;
+	return 0;
+}
+
+int Middle_Avg(int *tabla, int ip, int iu, int *pos){
+	if(tabla==NULL || pos==NULL || ip>=iu)
+		return ERR;
+	*pos = (ip + iu)/2;
+
 	return 0;
 }
