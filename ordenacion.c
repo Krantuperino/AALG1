@@ -176,7 +176,6 @@ int Merge(int *tabla, int ip, int iu, int imedio)
 		{
 			t_aux[k] = tabla[i];
 			i++;
-			num++;
 		}
 		else
 		{
@@ -184,6 +183,7 @@ int Merge(int *tabla, int ip, int iu, int imedio)
 			j++;
 		}
 		k++;
+		num++;
 	}
 
 	while(i <= imedio)
