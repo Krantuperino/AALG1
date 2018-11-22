@@ -13,7 +13,7 @@
 #include "ordenacion.h"
 
 /***************************************************/
-/* Funcion: aleat_num Fecha: 28/09/2018            */
+/* Funcion: swap      Fecha: 28/09/2018            */
 /* Autores: Pablo Borrelli, Pablo Sánchez          */
 /*                                                 */
 /* Cambia los valores de los int dados             */
@@ -37,51 +37,90 @@ void swap(int * a, int * b){
 /* Funcion: SelectSort    Fecha: 28/09/2018        */
 /* Autores: Pablo Borrelli, Pablo Sánchez          */
 /*                                                 */
+/* Ordena la tabla dada desde ip hasta iu          */
 /*                                                 */
+/* Entrada:                                        */
+/* int *tabla: La tabla a ordenar                  */
+/* int ip: indice desde donde ordenar la tabla     */
+/* int iu: indice hasta donde ordenar la tabla     */
+/* Salida:                                         */
+/* int: Numero de OB o -1 en caso de error         */
 /*                                                 */
 /***************************************************/
 int SelectSort(int* tabla, int ip, int iu)
 {
   int min, num = 0, j;
+  int i=ip;
 
   if(!tabla || ip<0 || iu<ip + 1)
 	return ERR;
 
-  for(; ip < iu; ip++){
-	min = ip;
-	for(j = ip+1; j <= iu; j++){
+  for(; i < iu; i++){
+	min = i;
+	for(j = i+1; j <= iu; j++){
 	  if(tabla[j]<tabla[min]){
 		min = j;
 	  }
 	  num++;
 	}
-	swap(&tabla[ip], &tabla[min]);
+	swap(&tabla[i], &tabla[min]);
   }
 
   return num;
 }
 
+/***************************************************/
+/* Funcion: SelectSortInv    Fecha: 28/09/2018     */
+/* Autores: Pablo Borrelli, Pablo Sánchez          */
+/*                                                 */
+/* Ordena la tabla dada desde ip hasta iu. Pero    */
+/* de mayor a menor                                */
+/*                                                 */
+/* Entrada:                                        */
+/* int *tabla: La tabla a ordenar                  */
+/* int ip: indice desde donde ordenar la tabla     */
+/* int iu: indice hasta donde ordenar la tabla     */
+/* Salida:                                         */
+/* int: Numero de OB o -1 en caso de error         */
+/*                                                 */
+/***************************************************/
 int SelectSortInv(int* tabla, int ip, int iu)
 {
   int min, num = 0, j;
+  int i=iu;
 
   if(!tabla || ip<0 || iu<ip + 1)
 	return ERR;
 
-  for(; iu > ip; iu--){
-	min = iu;
-	for(j = iu-1; j >= ip; j--){
+  for(; i > ip; i--){
+	min = i;
+	for(j = i-1; j >= ip; j--){
 	  if(tabla[j]<tabla[min]){
 		min = j;
 	  }
 	  num++;
 	}
-	swap(&tabla[iu], &tabla[min]);
+	swap(&tabla[i], &tabla[min]);
   }
 
   return num;
 }
 
+
+/***************************************************/
+/* Funcion: MergeSort        Fecha: 15/11/2018     */
+/* Autores: Pablo Borrelli, Pablo Sánchez          */
+/*                                                 */
+/* Ordena la tabla dada desde ip hasta iu.         */
+/*                                                 */
+/* Entrada:                                        */
+/* int *tabla: La tabla a ordenar                  */
+/* int ip: indice desde donde ordenar la tabla     */
+/* int iu: indice hasta donde ordenar la tabla     */
+/* Salida:                                         */
+/* int: Numero de OB o -1 en caso de error         */
+/*                                                 */
+/***************************************************/
 int MergeSort(int *tabla, int ip, int iu)
 {
 	int imedio, num;
@@ -102,6 +141,23 @@ int MergeSort(int *tabla, int ip, int iu)
 	return num;
 }
 
+
+/***************************************************/
+/* Funcion: Merge            Fecha: 15/11/2018     */
+/* Autores: Pablo Borrelli, Pablo Sánchez          */
+/*                                                 */
+/* Junta los trozos de la tabla separada en        */
+/* MergeSort, ordenandolos en e proceso.           */
+/*                                                 */
+/* Entrada:                                        */
+/* int *tabla: La tabla a ordenar                  */
+/* int ip: indice desde donde ordenar la tabla     */
+/* int iu: indice hasta donde ordenar la tabla     */
+/* int imedio: punto medio de la tabla             */
+/* Salida:                                         */
+/* int: Numero de OB o -1 en caso de error         */
+/*                                                 */
+/***************************************************/
 int Merge(int *tabla, int ip, int iu, int imedio)
 {
 	int *t_aux;
@@ -154,6 +210,20 @@ int Merge(int *tabla, int ip, int iu, int imedio)
 	return num;
 }
 
+/***************************************************/
+/* Funcion: QuickSort        Fecha: 28/09/2018     */
+/* Autores: Pablo Borrelli, Pablo Sánchez          */
+/*                                                 */
+/* Ordena la tabla dada desde ip hasta iu.         */
+/*                                                 */
+/* Entrada:                                        */
+/* int *tabla: La tabla a ordenar                  */
+/* int ip: indice desde donde ordenar la tabla     */
+/* int iu: indice hasta donde ordenar la tabla     */
+/* Salida:                                         */
+/* int: Numero de OB o -1 en caso de error         */
+/*                                                 */
+/***************************************************/
 int QuickSort(int *tabla, int ip, int iu)
 {
 	int num, pos;
@@ -183,6 +253,21 @@ int QuickSort(int *tabla, int ip, int iu)
 	return num;
 }
 
+/***************************************************/
+/* Funcion: QuickSort_src    Fecha: 28/09/2018     */
+/* Autores: Pablo Borrelli, Pablo Sánchez          */
+/*                                                 */
+/* Ordena la tabla dada desde ip hasta iu.         */
+/* Ahora sin recursion de cola.                    */
+/*                                                 */
+/* Entrada:                                        */
+/* int *tabla: La tabla a ordenar                  */
+/* int ip: indice desde donde ordenar la tabla     */
+/* int iu: indice hasta donde ordenar la tabla     */
+/* Salida:                                         */
+/* int: Numero de OB o -1 en caso de error         */
+/*                                                 */
+/***************************************************/
 int QuickSort_src(int *tabla, int ip, int iu)
 {
 	int num=0, pos=1, check;
@@ -206,6 +291,21 @@ int QuickSort_src(int *tabla, int ip, int iu)
 	return num;
 }
 
+/***************************************************/
+/* Funcion: Split            Fecha: 15/11/2018     */
+/* Autores: Pablo Borrelli, Pablo Sánchez          */
+/*                                                 */
+/* Separa la tabla ordenandola.                    */
+/*                                                 */
+/* Entrada:                                        */
+/* int *tabla: La tabla a ordenar                  */
+/* int ip: indice desde donde ordenar la tabla     */
+/* int iu: indice hasta donde ordenar la tabla     */
+/* int pos: posicion del pivote                    */
+/* Salida:                                         */
+/* int: Numero de OB o -1 en caso de error         */
+/*                                                 */
+/***************************************************/
 int Split(int *tabla, int ip, int iu, int *pos)
 {
 	int k, m, i, num=0;
@@ -235,11 +335,41 @@ int Split(int *tabla, int ip, int iu, int *pos)
 	return num;
 }
 
+/***************************************************/
+/* Funcion: Split            Fecha: 15/11/2018     */
+/* Autores: Pablo Borrelli, Pablo Sánchez          */
+/*                                                 */
+/* Coloca el pivote en ip.                         */
+/*                                                 */
+/* Entrada:                                        */
+/* int *tabla: La tabla a ordenar                  */
+/* int ip: indice desde donde ordenar la tabla     */
+/* int iu: indice hasta donde ordenar la tabla     */
+/* int pos: posicion del pivote                    */
+/* Salida:                                         */
+/* int: Numero de OB o -1 en caso de error         */
+/*                                                 */
+/***************************************************/
 int Middle(int *tabla, int ip, int iu, int *pos){
 	*pos = ip;
 	return 0;
 }
 
+/***************************************************/
+/* Funcion: Split            Fecha: 15/11/2018     */
+/* Autores: Pablo Borrelli, Pablo Sánchez          */
+/*                                                 */
+/* Coloca el pivote en (ip+iu)/2.                  */
+/*                                                 */
+/* Entrada:                                        */
+/* int *tabla: La tabla a ordenar                  */
+/* int ip: indice desde donde ordenar la tabla     */
+/* int iu: indice hasta donde ordenar la tabla     */
+/* int pos: posicion del pivote                    */
+/* Salida:                                         */
+/* int: Numero de OB o -1 en caso de error         */
+/*                                                 */
+/***************************************************/
 int Middle_Avg(int *tabla, int ip, int iu, int *pos){
 	if(tabla==NULL || pos==NULL || ip>=iu)
 		return ERR;
