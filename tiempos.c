@@ -75,7 +75,7 @@ short tiempo_medio_ordenacion(pfunc_ordena metodo,
 
 	//tabla_ob = calloc(N, sizeof(double));
 
-	if(!metodo || n_perms < 1 || N < 2){
+	if(!metodo || n_perms < 1 || N < 1){
 		return ERR;
 	}
 
