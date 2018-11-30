@@ -11,7 +11,7 @@ all : $(EXE)
 
 .PHONY : clean
 clean :
-	rm -f *.o core $(EXE) test
+	rm -f *.o core $(EXE) test ejercicio5.log
 
 $(EXE) : % : %.o ordenacion.o tiempos.o permutaciones.o
 	@echo "#---------------------------"
@@ -60,3 +60,5 @@ ejercicio4_test:
 ejercicio5_test:
 	@echo Ejecutando ejercicio5
 	@./ejercicio5 -num_min 1 -num_max 5 -incr 1 -numP 5 -fichSalida ejercicio5.log
+
+alltest: ejercicio1_test ejercicio2_test ejercicio3_test ejercicio4_test ejercicio5_test

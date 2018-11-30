@@ -58,7 +58,7 @@ int* genera_perm(int N)
     return NULL;
   }
 
-  perm = calloc(N, sizeof(int));
+  perm = (int *)calloc(N, sizeof(int));
 
   if(!perm){
     printf("Error in memory");
@@ -104,7 +104,7 @@ int** genera_permutaciones(int n_perms, int N)
   int **tabla;
   int i;
 
-  tabla = calloc(sizeof(int*), n_perms);
+  tabla = (int**)calloc(sizeof(int*), n_perms);
 
   if(!tabla){
     printf("Memory error\n");
