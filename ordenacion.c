@@ -52,7 +52,7 @@ int SelectSort(int* tabla, int ip, int iu)
   int min, num = 0, j;
   int i=ip;
 
-  if(!tabla || ip<0 || iu<ip + 1)
+  if(!tabla || ip<0 || iu<ip)
 	return ERR;
 
   for(; i < iu; i++){
@@ -89,7 +89,7 @@ int SelectSortInv(int* tabla, int ip, int iu)
   int min, num = 0, j;
   int i=iu;
 
-  if(!tabla || ip<0 || iu<ip + 1)
+  if(!tabla || ip<0 || iu<ip)
 	return ERR;
 
   for(; i > ip; i--){
