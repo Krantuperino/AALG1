@@ -85,7 +85,7 @@ int inserta_diccionario(PDICC pdicc, int clave)
 
 	if(pdicc->orden == ORDENADO){
 		a = pdicc->tabla[pdicc->n_datos - 1];
-		j = pdicc->n_datos -1;
+		j = pdicc->n_datos - 2;
 
 		while(j >= 0 && pdicc->tabla[j]>a){
 			pdicc->tabla[j+1] = pdicc->tabla[j];
@@ -120,6 +120,9 @@ int busca_diccionario(PDICC pdicc, int clave, int *ppos, pfunc_busqueda metodo)
 		return ERR;
 	
 	check = metodo(pdicc->tabla, 0, pdicc->n_datos - 1, clave, ppos);
+
+	if(*ppos == NO_ENCONTRADO)
+		return NO_ENCONTRADO;
 	
 	return check;
 }
@@ -149,7 +152,7 @@ int bbin(int *tabla,int P,int U,int clave,int *ppos)
 	}
 
 	*ppos = NO_ENCONTRADO;
-	return NO_ENCONTRADO;
+	return n;
 }
 
 int blin(int *tabla,int P,int U,int clave,int *ppos)
@@ -169,7 +172,7 @@ int blin(int *tabla,int P,int U,int clave,int *ppos)
 	}
 
 	*ppos = NO_ENCONTRADO;
-	return NO_ENCONTRADO;
+	return n;
 }
 
 
