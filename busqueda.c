@@ -43,7 +43,8 @@ void generador_claves_uniforme(int *claves, int n_claves, int max)
 PDICC ini_diccionario (int tamanio, char orden)
 {
 	PDICC dic;
-
+struct timespec start, finish;
+	double tiempo=0, media=0, media_ob=0;
 	if(tamanio<1)
 		return NULL;
 

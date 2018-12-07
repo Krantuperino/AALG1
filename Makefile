@@ -16,19 +16,19 @@ allsearch : $(EXESEARCH)
 clean :
 	rm -f *.o core $(EXESORT) $(EXESEARCH) test ejercicio5.log
 
-$(EXESORT) : % : %.o ordenacion.o tiempos.o permutaciones.o
+$(EXESORT) : % : %.o ordenacion.o tiempos.o permutaciones.o busqueda.o
 	@echo "#---------------------------"
 	@echo "# Generando $@ "
 	@echo "# Depende de $^"
 	@echo "# Ha cambiado $<"
-	$(CC) $(CFLAGS) -o $@ $@.o ordenacion.o tiempos.o permutaciones.o
+	$(CC) $(CFLAGS) -o $@ $@.o ordenacion.o tiempos.o permutaciones.o busqueda.o
 
-$(EXESEARCH) : % : %.o busqueda.o tiempos.o permutaciones.o
+$(EXESEARCH) : % : %.o busqueda.o tiempos.o permutaciones.o ordenacion.o
 	@echo "#---------------------------"
 	@echo "# Generando $@ "
 	@echo "# Depende de $^"
 	@echo "# Ha cambiado $<"
-	$(CC) $(CFLAGS) -o $@ $@.o busqueda.o tiempos.o permutaciones.o
+	$(CC) $(CFLAGS) -o $@ $@.o busqueda.o tiempos.o permutaciones.o ordenacion.o
 
 permutaciones.o : permutaciones.c permutaciones.h
 	@echo "#---------------------------"

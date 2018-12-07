@@ -13,6 +13,7 @@
 #include "tiempos.h"
 #include "ordenacion.h"
 #include "permutaciones.h"
+#include "busqueda.h"
 
 /***************************************************/
 /* Funcion: tiempo_medio_ordenacion Fecha:         */
@@ -113,6 +114,81 @@ short tiempo_medio_ordenacion(pfunc_ordena metodo,
 	return OK;
 }
 
+short tiempo_medio_busqueda(pfunc_busqueda metodo, pfunc_generador_claves generador,
+                              int orden,
+                              int N, 
+                              int n_veces,
+                              PTIEMPO ptiempo)
+{
+	PDICC dicc = NULL;
+	int * perm = NULL;
+	int * claves = NULL;
+	double tabla_ob[n_veces*N];
+	int i, pos;
+	struct timespec start, finish;
+	double tiempo=0, media=0, media_ob=0;
+
+	dicc = ini_diccionario(N, orden);
+	if(!dicc){
+		return ERR;
+	}
+
+	perm = genera_perm(N);
+	if(!perm){
+		goto err0;
+	}
+
+	if(insercion_masiva_diccionario(dicc, perm, N) == ERR){
+		goto err1;
+	}
+
+	claves = (int *)malloc(sizeof(int)*n_veces*N);
+	if(!claves){
+		goto err1;
+	}
+
+	generador_claves_uniforme(claves, n_veces*N, N);
+
+	ptiempo->n_elems = n_veces;
+	ptiempo->N = N;
+
+	for(i=0; i<n_veces*N; i++){
+
+		clock_gettime(CLOCK_REALTIME, &start);
+
+		tabla_ob[i] = busca_diccionario(dicc, claves[i], &pos, metodo);
+
+		clock_gettime(CLOCK_REALTIME, &finish);
+
+		tiempo = (double) (finish.tv_sec - start.tv_sec) + NANOSEC*(finish.tv_nsec - start.tv_nsec);
+
+		media+= tiempo;
+	}
+
+	
+	media = (double) media/(n_veces*N);
+	for(i=0; i<n_veces*N; i++)
+		media_ob += tabla_ob[i];
+	media_ob = (double) media_ob/(n_veces*N);
+
+	ptiempo->tiempo = media;
+	ptiempo->medio_ob = media_ob;
+	ptiempo->min_ob = (int) minTabla(tabla_ob, n_veces*N);
+	ptiempo->max_ob = (int) maxTabla(tabla_ob, n_veces*N);
+
+	free(perm);
+	free(claves);
+	libera_diccionario(dicc);
+	return OK;
+
+	err1:
+		free(perm);
+	err0:
+		libera_diccionario(dicc);
+		return ERR;
+
+}
+
 /***************************************************/
 /* Funcion: genera_tiempos_ordenacion Fecha:       */
 /*                                                 */
@@ -144,6 +220,35 @@ short genera_tiempos_ordenacion(pfunc_ordena metodo, char* fichero,
 	free(ptiempo);
 	return OK;
 }
+
+short genera_tiempos_busqueda(	pfunc_busqueda metodo, pfunc_generador_claves generador,
+								int orden, char * fichero,
+								int num_min, int num_max,
+								int incr, int n_veces)
+{
+	int i;
+	int perms_imprimir;
+	PTIEMPO ptiempo = NULL;
+
+	perms_imprimir = ((num_max - num_min)/incr) + 1;
+
+	ptiempo =(PTIEMPO) malloc (perms_imprimir*sizeof(TIEMPO));
+
+	if(!metodo || !fichero || num_min >= num_max || incr<1 || n_veces<1|| !ptiempo){
+		return ERR;
+	}
+
+
+	for(i=0; num_min <= num_max; num_min+=incr , i++){
+		if(tiempo_medio_busqueda(metodo, generador, orden, num_min, n_veces, &ptiempo[i]) == ERR)
+			return ERR;
+	}
+	guarda_tabla_tiempos(fichero, ptiempo, perms_imprimir);
+
+	free(ptiempo);
+	return OK;
+}
+
 
 /***************************************************/
 /* Funcion: guarda_tabla_tiempos Fecha:            */
