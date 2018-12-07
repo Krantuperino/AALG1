@@ -13,6 +13,7 @@
 
 #include <stdlib.h>
 #include <math.h>
+#include <time.h>
 
 /**
  *  Funciones de geracion de claves
