@@ -14,7 +14,7 @@ allsearch : $(EXESEARCH)
 
 .PHONY : clean
 clean :
-	rm -f *.o core $(EXESORT) $(EXESEARCH) test ejercicio5.log
+	rm -f *.o core $(EXESORT) $(EXESEARCH) test ejercicio5.log busqueda.dat
 
 $(EXESORT) : % : %.o ordenacion.o tiempos.o permutaciones.o busqueda.o
 	@echo "#---------------------------"

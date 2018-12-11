@@ -53,7 +53,7 @@ int main(int argc, char** argv)
     }
   }
 
-  pdicc = ini_diccionario(tamanio,ORDENADO);
+  pdicc = ini_diccionario(tamanio,NO_ORDENADO);
 
   if (pdicc == NULL) {
     /* error */
@@ -80,7 +80,7 @@ int main(int argc, char** argv)
     exit(-1);
   }
 
-  nob = busca_diccionario(pdicc,clave,&pos,bbin);
+  nob = busca_diccionario(pdicc,clave,&pos,blin);
 
   if(nob >= 0) {
     printf("Clave %d encontrada en la posicion %d en %d op. basicas\n",clave,pos,nob);
