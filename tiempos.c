@@ -16,7 +16,7 @@
 #include "busqueda.h"
 
 /***************************************************/
-/* Funcion: tiempo_medio_ordenacion Fecha:         */
+/* Funcion: minTabla 		Fecha: 12/10/2018      */
 /*                                                 */
 /* Vuestra documentacion (formato igual            */
 /* que en el primer apartado):                     */

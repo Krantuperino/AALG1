@@ -166,7 +166,7 @@ int Merge(int *tabla, int ip, int iu, int imedio)
 	int i = ip;
 	int j = imedio + 1;
 
-	t_aux=malloc(sizeof(int)*(iu-ip+1));
+	t_aux= (int *) malloc(sizeof(int)*(iu-ip+1));
 	if(t_aux==NULL)
 		return ERR;
 
