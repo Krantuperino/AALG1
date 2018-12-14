@@ -203,7 +203,6 @@ short genera_tiempos_ordenacion(pfunc_ordena metodo, char* fichero,
 	PTIEMPO ptiempo = NULL;
 
 	perms_imprimir = ((num_max - num_min)/incr) + 1;
-argc != 1
 	ptiempo =(PTIEMPO) malloc (perms_imprimir*sizeof(TIEMPO));
 
 	if(!metodo || !fichero || num_min >= num_max || incr<1 || n_perms<1|| !ptiempo){
