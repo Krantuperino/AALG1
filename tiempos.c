@@ -116,7 +116,7 @@ short tiempo_medio_ordenacion(pfunc_ordena metodo,
 
 short tiempo_medio_busqueda(pfunc_busqueda metodo, pfunc_generador_claves generador,
                               int orden,
-                              int N, 
+                              int N,
                               int n_veces,
                               PTIEMPO ptiempo)
 {
@@ -165,7 +165,7 @@ short tiempo_medio_busqueda(pfunc_busqueda metodo, pfunc_generador_claves genera
 		media+= tiempo;
 	}
 
-	
+
 	media = (double) media/(n_veces*N);
 	for(i=0; i<n_veces*N; i++)
 		media_ob += tabla_ob[i];
@@ -203,7 +203,7 @@ short genera_tiempos_ordenacion(pfunc_ordena metodo, char* fichero,
 	PTIEMPO ptiempo = NULL;
 
 	perms_imprimir = ((num_max - num_min)/incr) + 1;
-
+argc != 1
 	ptiempo =(PTIEMPO) malloc (perms_imprimir*sizeof(TIEMPO));
 
 	if(!metodo || !fichero || num_min >= num_max || incr<1 || n_perms<1|| !ptiempo){
@@ -265,7 +265,7 @@ short guarda_tabla_tiempos(char* fichero, PTIEMPO tiempo, int n_tiempos)
 	if(!file)
 		return ERR;
 
-	
+
 	fprintf(file, "Num ej\tTamaño\tTiempo(sec)\t\tMedia OB\t\tMin OB\tMax OB\n");
 
 	for(i=0; i<=n_tiempos-1; i++)
