@@ -72,10 +72,20 @@ double maxTabla(double *tabla, int N)
 }
 
 /***************************************************/
-/* Funcion: tiempo_medio_ordenacion Fecha:         */
+/* Funcion:tiempo_medio_ordenacion Fecha:14/12/2018*/
+/* Autores: Pablo Borrelli, Pablo Sánchez          */
 /*                                                 */
-/* Vuestra documentacion (formato igual            */
-/* que en el primer apartado):                     */
+/* Realiza medidas de rendimiento de los           */
+/* algoritmos de ordenacion                        */
+/*                                                 */
+/* Entrada:                                        */
+/* pfunc_ordena metodo: metodo de ordenacion       */
+/* int n_perms: numero de permutaciones a ordenar  */
+/* int N: numero de elementos de las permutaciones */
+/* PTIEMPO ptiempo: guarda los datos de los tiempos*/
+/* Salida:                                         */
+/* short ERR en caso de error, OK en caso contrario*/
+/*                                                 */
 /***************************************************/
 short tiempo_medio_ordenacion(pfunc_ordena metodo,
 							  int n_perms,
@@ -128,6 +138,25 @@ short tiempo_medio_ordenacion(pfunc_ordena metodo,
 	return OK;
 }
 
+/***************************************************/
+/* Funcion:tiempo_medio_busqueda Fecha:14/12/2018  */
+/* Autores: Pablo Borrelli, Pablo Sánchez          */
+/*                                                 */
+/* Realiza medidas de rendimiento de los           */
+/* algoritmos de busqueda                          */
+/*                                                 */
+/* Entrada:                                        */
+/* pfunc_busqueda metodo: metodo de busqueda       */
+/* pfunc_generador_claves generador: metodo de     */
+/* generacion de claves                            */
+/* int orden:define si tabla ordenada o no ordenada*/
+/* int N: numero de elementos de las permutaciones */
+/* int n_veces: veces que se busca cada clave      */
+/* PTIEMPO ptiempo: guarda los datos de los tiempos*/
+/* Salida:                                         */
+/* short ERR en caso de error, OK en caso contrario*/
+/*                                                 */
+/***************************************************/
 short tiempo_medio_busqueda(pfunc_busqueda metodo, pfunc_generador_claves generador,
                               int orden,
                               int N,
@@ -161,12 +190,12 @@ short tiempo_medio_busqueda(pfunc_busqueda metodo, pfunc_generador_claves genera
 		goto err1;
 	}
 
-	generador_claves_uniforme(claves, n_veces*N, N);
+	generador(claves, n_veces*N, N);
 
-	ptiempo->n_elems = n_veces;
+	ptiempo->n_elems = n_veces * N;
 	ptiempo->N = N;
 
-	for(i=0; i<n_veces*N; i++){
+	for(i=0; i<ptiempo->n_elems; i++){
 
 		clock_gettime(CLOCK_REALTIME, &start);
 
@@ -180,15 +209,15 @@ short tiempo_medio_busqueda(pfunc_busqueda metodo, pfunc_generador_claves genera
 	}
 
 
-	media = (double) media/(n_veces*N);
-	for(i=0; i<n_veces*N; i++)
+	media = (double) media/(ptiempo->n_elems);
+	for(i=0; i<ptiempo->n_elems; i++)
 		media_ob += tabla_ob[i];
-	media_ob = (double) media_ob/(n_veces*N);
+	media_ob = (double) media_ob/(ptiempo->n_elems);
 
 	ptiempo->tiempo = media;
 	ptiempo->medio_ob = media_ob;
-	ptiempo->min_ob = (int) minTabla(tabla_ob, n_veces*N);
-	ptiempo->max_ob = (int) maxTabla(tabla_ob, n_veces*N);
+	ptiempo->min_ob = (int) minTabla(tabla_ob, ptiempo->n_elems);
+	ptiempo->max_ob = (int) maxTabla(tabla_ob, ptiempo->n_elems);
 
 	free(perm);
 	free(claves);
@@ -204,9 +233,22 @@ short tiempo_medio_busqueda(pfunc_busqueda metodo, pfunc_generador_claves genera
 }
 
 /***************************************************/
-/* Funcion: genera_tiempos_ordenacion Fecha:       */
+/*Funcion:genera_tiempos_ordenacion Fecha:14/12/2018*/
+/* Autores: Pablo Borrelli, Pablo Sánchez          */
 /*                                                 */
-/* Vuestra documentacion                           */
+/* Automatiza la toma de tiempos                   */
+/*                                                 */
+/* Entrada:                                        */
+/* pfunc_ordena metodo: metodo de ordenacion       */
+/* char *fichero: nombre fichero guardar tiempos   */
+/* int num_min: numero minimo de elementos tabla   */
+/* int num_max: numero maximo elementos tabla      */
+/* int incr: cantidad con la que incrementa        */
+/* tamanio tabla                                   */
+/* int n_perms: permutaciones que se ordenaran     */
+/* Salida:                                         */
+/* short ERR en caso de error, OK en caso contrario*/
+/*                                                 */
 /***************************************************/
 short genera_tiempos_ordenacion(pfunc_ordena metodo, char* fichero,
 								int num_min, int num_max,
@@ -234,6 +276,27 @@ short genera_tiempos_ordenacion(pfunc_ordena metodo, char* fichero,
 	return OK;
 }
 
+/***************************************************/
+/* Funcion:genera_tiempos_busqueda Fecha:14/12/2018*/
+/* Autores: Pablo Borrelli, Pablo Sánchez          */
+/*                                                 */
+/* Automatiza la toma de tiempos                   */
+/*                                                 */
+/* Entrada:                                        */
+/* pfunc_busqueda metodo: metodo de busqueda       */
+/* pfunc_generador_claves generador: metodo de     */
+/* generacion de claves                            */
+/* int orden:define si tabla ordenada o no ordenada*/
+/* char *fichero: nombre fichero guardar tiempos   */
+/* int num_min: numero minimo de elementos tabla   */
+/* int num_max: numero maximo elementos tabla      */
+/* int incr: cantidad con la que incrementa        */
+/* tamanio tabla                                   */
+/* int n_veces: veces que se busca cada clave      */
+/* Salida:                                         */
+/* short ERR en caso de error, OK en caso contrario*/
+/*                                                 */
+/***************************************************/
 short genera_tiempos_busqueda(	pfunc_busqueda metodo, pfunc_generador_claves generador,
 								int orden, char * fichero,
 								int num_min, int num_max,
@@ -264,10 +327,18 @@ short genera_tiempos_busqueda(	pfunc_busqueda metodo, pfunc_generador_claves gen
 
 
 /***************************************************/
-/* Funcion: guarda_tabla_tiempos Fecha:            */
+/* Funcion: guarda_tabla_tiempos Fecha: 14/12/2018 */
 /*                                                 */
-/* Vuestra documentacion (formato igual            */
-/* que en el primer apartado):                     */
+/* Guarda un fichero con los datos de los tiempos  */
+/* y las cantidades de operaciones basicas         */
+/*                                                 */
+/* Entrada:                                        */
+/* char *fichero: nombre fichero guardar tiempos   */
+/*PTIEMPO ptiempo:contiene los datos de los tiempos*/
+/* int n_tiempos:numero de tiempos que se guardaran*/
+/* Salida:                                         */
+/* short ERR en caso de error, OK en caso contrario*/
+/*                                                 */
 /***************************************************/
 short guarda_tabla_tiempos(char* fichero, PTIEMPO tiempo, int n_tiempos)
 {

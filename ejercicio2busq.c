@@ -1,6 +1,6 @@
 /***********************************************************/
-/* Programa: ejercicio2 Fecha:                             */
-/* Autores:                                                */
+/* Programa: ejercicio2 Fecha: 14/12/2018                  */
+/* Autores: Pablo Borrelli, Pablo Sánchez                  */
 /*                                                         */
 /* Programa que escribe en un fichero                      */
 /* los tiempos medios del algoritmo de                     */

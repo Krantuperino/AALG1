@@ -1,6 +1,6 @@
 /***********************************************/
-/* Programa: ejercicio1     Fecha:             */
-/* Autores:                                    */
+/* Programa: ejercicio1     Fecha: 14/12/2018  */
+/* Autores: Pablo Borrelli, Pablo Sánchez      */
 /*                                             */
 /* Programa que comprueba el funcionamiento de */
 /* la busqueda lineal                          */
