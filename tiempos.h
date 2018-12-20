@@ -22,7 +22,6 @@
 #define NANOSEC 0.000000001
 
 #include "ordenacion.h"
-#include "busqueda.h"
 
 /* definiciones de tipos */
 typedef struct tiempo {
@@ -38,15 +37,5 @@ typedef struct tiempo {
 short tiempo_medio_ordenacion(pfunc_ordena metodo, int n_perms,int N, PTIEMPO ptiempo);
 short genera_tiempos_ordenacion(pfunc_ordena metodo, char* fichero, int num_min, int num_max, int incr, int n_perms);
 short guarda_tabla_tiempos(char* fichero, PTIEMPO tiempo, int n_tiempos);
-short genera_tiempos_busqueda(pfunc_busqueda metodo, pfunc_generador_claves generador, 
-                                int orden, char* fichero, 
-                                int num_min, int num_max, 
-                                int incr, int n_veces);
-
-short tiempo_medio_busqueda(pfunc_busqueda metodo, pfunc_generador_claves generador,
-                              int orden,
-                              int N, 
-                              int n_veces,
-                              PTIEMPO ptiempo);
 
 #endif

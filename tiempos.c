@@ -13,7 +13,6 @@
 #include "tiempos.h"
 #include "ordenacion.h"
 #include "permutaciones.h"
-#include "busqueda.h"
 
 /***************************************************/
 /* Funcion: minTabla           Fecha: 29/10/2018   */
@@ -139,100 +138,6 @@ short tiempo_medio_ordenacion(pfunc_ordena metodo,
 }
 
 /***************************************************/
-/* Funcion:tiempo_medio_busqueda Fecha:14/12/2018  */
-/* Autores: Pablo Borrelli, Pablo Sánchez          */
-/*                                                 */
-/* Realiza medidas de rendimiento de los           */
-/* algoritmos de busqueda                          */
-/*                                                 */
-/* Entrada:                                        */
-/* pfunc_busqueda metodo: metodo de busqueda       */
-/* pfunc_generador_claves generador: metodo de     */
-/* generacion de claves                            */
-/* int orden:define si tabla ordenada o no ordenada*/
-/* int N: numero de elementos de las permutaciones */
-/* int n_veces: veces que se busca cada clave      */
-/* PTIEMPO ptiempo: guarda los datos de los tiempos*/
-/* Salida:                                         */
-/* short ERR en caso de error, OK en caso contrario*/
-/*                                                 */
-/***************************************************/
-short tiempo_medio_busqueda(pfunc_busqueda metodo, pfunc_generador_claves generador,
-                              int orden,
-                              int N,
-                              int n_veces,
-                              PTIEMPO ptiempo)
-{
-	PDICC dicc = NULL;
-	int * perm = NULL;
-	int * claves = NULL;
-	double tabla_ob[n_veces*N];
-	int i, pos;
-	struct timespec start, finish;
-	double tiempo=0, media=0, media_ob=0;
-
-	dicc = ini_diccionario(N, orden);
-	if(!dicc){
-		return ERR;
-	}
-
-	perm = genera_perm(N);
-	if(!perm){
-		goto err0;
-	}
-
-	if(insercion_masiva_diccionario(dicc, perm, N) == ERR){
-		goto err1;
-	}
-
-	claves = (int *)malloc(sizeof(int)*n_veces*N);
-	if(!claves){
-		goto err1;
-	}
-
-	generador(claves, n_veces*N, N);
-
-	ptiempo->n_elems = n_veces * N;
-	ptiempo->N = N;
-
-	for(i=0; i<ptiempo->n_elems; i++){
-
-		clock_gettime(CLOCK_REALTIME, &start);
-
-		tabla_ob[i] = busca_diccionario(dicc, claves[i], &pos, metodo);
-
-		clock_gettime(CLOCK_REALTIME, &finish);
-
-		tiempo = (double) (finish.tv_sec - start.tv_sec) + NANOSEC*(finish.tv_nsec - start.tv_nsec);
-
-		media+= tiempo;
-	}
-
-
-	media = (double) media/(ptiempo->n_elems);
-	for(i=0; i<ptiempo->n_elems; i++)
-		media_ob += tabla_ob[i];
-	media_ob = (double) media_ob/(ptiempo->n_elems);
-
-	ptiempo->tiempo = media;
-	ptiempo->medio_ob = media_ob;
-	ptiempo->min_ob = (int) minTabla(tabla_ob, ptiempo->n_elems);
-	ptiempo->max_ob = (int) maxTabla(tabla_ob, ptiempo->n_elems);
-
-	free(perm);
-	free(claves);
-	libera_diccionario(dicc);
-	return OK;
-
-	err1:
-		free(perm);
-	err0:
-		libera_diccionario(dicc);
-		return ERR;
-
-}
-
-/***************************************************/
 /*Funcion:genera_tiempos_ordenacion Fecha:14/12/2018*/
 /* Autores: Pablo Borrelli, Pablo Sánchez          */
 /*                                                 */
@@ -275,56 +180,6 @@ short genera_tiempos_ordenacion(pfunc_ordena metodo, char* fichero,
 	free(ptiempo);
 	return OK;
 }
-
-/***************************************************/
-/* Funcion:genera_tiempos_busqueda Fecha:14/12/2018*/
-/* Autores: Pablo Borrelli, Pablo Sánchez          */
-/*                                                 */
-/* Automatiza la toma de tiempos                   */
-/*                                                 */
-/* Entrada:                                        */
-/* pfunc_busqueda metodo: metodo de busqueda       */
-/* pfunc_generador_claves generador: metodo de     */
-/* generacion de claves                            */
-/* int orden:define si tabla ordenada o no ordenada*/
-/* char *fichero: nombre fichero guardar tiempos   */
-/* int num_min: numero minimo de elementos tabla   */
-/* int num_max: numero maximo elementos tabla      */
-/* int incr: cantidad con la que incrementa        */
-/* tamanio tabla                                   */
-/* int n_veces: veces que se busca cada clave      */
-/* Salida:                                         */
-/* short ERR en caso de error, OK en caso contrario*/
-/*                                                 */
-/***************************************************/
-short genera_tiempos_busqueda(	pfunc_busqueda metodo, pfunc_generador_claves generador,
-								int orden, char * fichero,
-								int num_min, int num_max,
-								int incr, int n_veces)
-{
-	int i;
-	int perms_imprimir;
-	PTIEMPO ptiempo = NULL;
-
-	perms_imprimir = ((num_max - num_min)/incr) + 1;
-
-	ptiempo =(PTIEMPO) malloc (perms_imprimir*sizeof(TIEMPO));
-
-	if(!metodo || !fichero || num_min >= num_max || incr<1 || n_veces<1|| !ptiempo){
-		return ERR;
-	}
-
-
-	for(i=0; num_min <= num_max; num_min+=incr , i++){
-		if(tiempo_medio_busqueda(metodo, generador, orden, num_min, n_veces, &ptiempo[i]) == ERR)
-			return ERR;
-	}
-	guarda_tabla_tiempos(fichero, ptiempo, perms_imprimir);
-
-	free(ptiempo);
-	return OK;
-}
-
 
 /***************************************************/
 /* Funcion: guarda_tabla_tiempos Fecha: 14/12/2018 */
