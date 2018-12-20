@@ -31,13 +31,13 @@ int main(int argc, char** argv)
   int i, num_min,num_max,incr,n_veces;
   char nombre[256];
   short ret;
- 
+
   srand(time(NULL));
 
   if (argc != 11) {
     fprintf(stderr, "Error en los parametros de entrada:\n\n");
     fprintf(stderr, "%s -num_min <int> -num_max <int> -incr <int>\n", argv[0]);
-    fprintf(stderr, "\t\t -n_claves <int> -n_veces <int> -fichSalida <string> \n");
+    fprintf(stderr, "\t\t -n_veces <int> -fichSalida <string> \n");
     fprintf(stderr, "Donde:\n");
     fprintf(stderr, "-num_min: numero minimo de elementos de la tabla\n");
     fprintf(stderr, "-num_max: numero minimo de elementos de la tabla\n");
@@ -70,9 +70,9 @@ int main(int argc, char** argv)
   }
 
   /* calculamos los tiempos */
-  ret = genera_tiempos_busqueda(bbin, generador_claves_uniforme, ORDENADO, 
+  ret = genera_tiempos_busqueda(bbin, generador_claves_uniforme, ORDENADO,
                                 nombre, num_min, num_max, incr, n_veces);
-  if (ret == ERR) { 
+  if (ret == ERR) {
     printf("Error en la funcion genera_tiempos_busqueda\n");
     exit(-1);
   }
@@ -81,4 +81,3 @@ int main(int argc, char** argv)
 
   return 0;
 }
-
