@@ -16,10 +16,17 @@
 #include "busqueda.h"
 
 /***************************************************/
-/* Funcion: minTabla 		Fecha: 12/10/2018      */
+/* Funcion: minTabla           Fecha: 29/10/2018   */
+/* Autores: Pablo Borrelli, Pablo Sánchez          */
 /*                                                 */
-/* Vuestra documentacion (formato igual            */
-/* que en el primer apartado):                     */
+/* Escoje el menor elemento en una tabla           */
+/*                                                 */
+/* Entrada:                                        */
+/* double *tabla: La tabla                         */
+/* int N: El tamanio de la tabla                   */
+/* Salida:                                         */
+/* double El menor numero de la tabla              */
+/*                                                 */
 /***************************************************/
 double minTabla(double *tabla, int N)
 {
@@ -37,10 +44,17 @@ double minTabla(double *tabla, int N)
 }
 
 /***************************************************/
-/* Funcion: tiempo_medio_ordenacion Fecha:         */
+/* Funcion: maxTabla           Fecha: 29/10/2018   */
+/* Autores: Pablo Borrelli, Pablo Sánchez          */
 /*                                                 */
-/* Vuestra documentacion (formato igual            */
-/* que en el primer apartado):                     */
+/* Escoje el mayor elemento en una tabla           */
+/*                                                 */
+/* Entrada:                                        */
+/* double *tabla: La tabla                         */
+/* int N: El tamanio de la tabla                   */
+/* Salida:                                         */
+/* double El mayor numero de la tabla              */
+/*                                                 */
 /***************************************************/
 double maxTabla(double *tabla, int N)
 {

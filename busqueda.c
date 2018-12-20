@@ -40,7 +40,19 @@ void generador_claves_uniforme(int *claves, int n_claves, int max)
   return;
 }
 
-
+/***************************************************/
+/* Funcion: ini_diccionario    Fecha: 14/12/2018   */
+/* Autores: Pablo Borrelli, Pablo Sánchez          */
+/*                                                 */
+/* Inicializa la estructura diccionario            */
+/*                                                 */
+/* Entrada:                                        */
+/* int tamanio: Numero de elementos del diccionario*/
+/* char orden: Define si esta ordenado o no        */
+/* Salida:                                         */
+/* PDICC Puntero a la nueva estructura             */
+/*                                                 */
+/***************************************************/
 PDICC ini_diccionario (int tamanio, char orden)
 {
 	PDICC dic;
@@ -66,6 +78,16 @@ struct timespec start, finish;
 	return dic;
 }
 
+/***************************************************/
+/* Funcion: libera_diccionario  Fecha: 14/12/2018  */
+/* Autores: Pablo Borrelli, Pablo Sánchez          */
+/*                                                 */
+/* Libera la estructura diccionario                */
+/*                                                 */
+/* Entrada:                                        */
+/* PDICC pdicc: puntero a la estructura a liberar  */
+/*                                                 */
+/***************************************************/
 void libera_diccionario(PDICC pdicc)
 {
 	if(!pdicc)
@@ -75,6 +97,19 @@ void libera_diccionario(PDICC pdicc)
 	return;
 }
 
+/***************************************************/
+/* Funcion: inserta_diccionario  Fecha: 14/12/2018 */
+/* Autores: Pablo Borrelli, Pablo Sánchez          */
+/*                                                 */
+/* Inserta un elemento en el diccionario           */
+/*                                                 */
+/* Entrada:                                        */
+/* PDICC pdicc: Diccionario                        */
+/* int clave: Dato a insertar                      */
+/* Salida:                                         */
+/* int OK o ERR en caso de fallo                   */
+/*                                                 */
+/***************************************************/
 int inserta_diccionario(PDICC pdicc, int clave)
 {
 	int a, j;
@@ -99,6 +134,21 @@ int inserta_diccionario(PDICC pdicc, int clave)
 	return OK;
 }
 
+/***************************************************/
+/* Funcion: insercion_masiva_diccionario           */
+/*                               Fecha: 14/12/2018 */
+/* Autores: Pablo Borrelli, Pablo Sánchez          */
+/*                                                 */
+/* Inserta una serie de elementos en el diccionario*/
+/*                                                 */
+/* Entrada:                                        */
+/* PDICC pdicc: Diccionario                        */
+/* int *claves: Datos a insertar                   */
+/* int nclaves: Numero de datos a insertar         */
+/* Salida:                                         */
+/* int OK o ERR en caso de fallo                   */
+/*                                                 */
+/***************************************************/
 int insercion_masiva_diccionario (PDICC pdicc,int *claves, int n_claves)
 {
 	int i;
@@ -114,6 +164,24 @@ int insercion_masiva_diccionario (PDICC pdicc,int *claves, int n_claves)
 	return OK;
 }
 
+/***************************************************/
+/* Funcion: busca_diccionario                      */
+/*                               Fecha: 14/12/2018 */
+/* Autores: Pablo Borrelli, Pablo Sánchez          */
+/*                                                 */
+/* Inserta una serie de elementos en el diccionario*/
+/*                                                 */
+/* Entrada:                                        */
+/* PDICC pdicc: Diccionario                        */
+/* int claves: Dato a buscar                       */
+/* int *ppos: Puntero que indica la posicion de    */
+/*            la clave                             */
+/* pfunc_busqueda metodo: Metodo a utilizar para   */
+/*                        encontrar la clave       */
+/* Salida:                                         */
+/* int Numero de OBs usado para encontrar la clave */
+/*                                                 */
+/***************************************************/
 int busca_diccionario(PDICC pdicc, int clave, int *ppos, pfunc_busqueda metodo)
 {
 	int check;
@@ -131,6 +199,26 @@ int busca_diccionario(PDICC pdicc, int clave, int *ppos, pfunc_busqueda metodo)
 
 
 /* Funciones de busqueda del TAD Diccionario */
+
+/***************************************************/
+/* Funcion: bbin                                   */
+/*                               Fecha: 14/12/2018 */
+/* Autores: Pablo Borrelli, Pablo Sánchez          */
+/*                                                 */
+/* Busca la clave [clave] en una tabla e indica su */
+/* posicion en ppos                                */
+/*                                                 */
+/* Entrada:                                        */
+/* int *tabla                                      */
+/* int P: posicion minima de la tabla              */
+/* int U: posicion maxima de la tabla              */
+/* int clave: Clave a buscar en la tabla           */
+/* int *ppos: Puntero donde guardar la posicion de */
+/*            la clave                             */
+/* Salida:                                         */
+/* int numero de OBs o ERR en caso de fallo        */
+/*                                                 */
+/***************************************************/
 int bbin(int *tabla,int P,int U,int clave,int *ppos)
 {
 	int n=0, imedio, iu = U, ip = P;
@@ -157,6 +245,25 @@ int bbin(int *tabla,int P,int U,int clave,int *ppos)
 	return n;
 }
 
+/***************************************************/
+/* Funcion: blin                                   */
+/*                               Fecha: 14/12/2018 */
+/* Autores: Pablo Borrelli, Pablo Sánchez          */
+/*                                                 */
+/* Busca la clave [clave] en una tabla e indica su */
+/* posicion en ppos                                */
+/*                                                 */
+/* Entrada:                                        */
+/* int *tabla                                      */
+/* int P: posicion minima de la tabla              */
+/* int U: posicion maxima de la tabla              */
+/* int clave: Clave a buscar en la tabla           */
+/* int *ppos: Puntero donde guardar la posicion de */
+/*            la clave                             */
+/* Salida:                                         */
+/* int numero de OBs o ERR en caso de fallo        */
+/*                                                 */
+/***************************************************/
 int blin(int *tabla,int P,int U,int clave,int *ppos)
 {
 	int i;

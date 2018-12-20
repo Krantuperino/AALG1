@@ -147,7 +147,7 @@ int MergeSort(int *tabla, int ip, int iu)
 /* Autores: Pablo Borrelli, Pablo Sánchez          */
 /*                                                 */
 /* Junta los trozos de la tabla separada en        */
-/* MergeSort, ordenandolos en e proceso.           */
+/* MergeSort, ordenandolos en el proceso.          */
 /*                                                 */
 /* Entrada:                                        */
 /* int *tabla: La tabla a ordenar                  */
